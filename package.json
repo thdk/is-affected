@@ -1,6 +1,6 @@
 {
   "name": "is-affected",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Build optimisation tool to run commands on feature branches only if they affect files matching a given glob.",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "types": "types/index.d.ts",
   "typings": "types/index.d.ts",
   "bin": {
-    "is-affected": "/dist/cli.js"
+    "is-affected": "/lib/cli.js"
   },
   "files": [
     "lib",
