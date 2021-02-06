@@ -2,6 +2,8 @@
 
 Build optimisation tool to run commands on feature branches only if they affect files matching a given glob.
 
+![Cloud Build](https://storage.googleapis.com/includr-badges/builds/is-affected/branches/master.svg)
+
 ## CLI
 
 ```shell
