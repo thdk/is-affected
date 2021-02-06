@@ -1,0 +1,5 @@
+lib
+esm
+types
+node_modules
+.eslintcache

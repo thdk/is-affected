@@ -1,0 +1,19 @@
+steps:
+- name: 'node:13-alpine'
+  entrypoint: "npm"
+  args: ['ci']
+- name: 'node:13-alpine'
+  entrypoint: "npm"
+  args: ['run', 'lint']
+- name: 'node:13-alpine'
+  entrypoint: "npm"
+  args: ['run', 'prettier']
+- name: 'node:13-alpine'
+  entrypoint: "npm"
+  args: ['run', 'build']
+- name: 'node:13-alpine'
+  entrypoint: 'npm'
+  args: ["config", "set", "//registry.npmjs.org/:_authToken", "$_NPM_TOKEN"]
+- name: 'node:13-alpine'
+  entrypoint: 'npm'
+  args: ["publish"]
