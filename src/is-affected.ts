@@ -19,7 +19,7 @@ export const isAffected = async (
     const from = await repo.getHeadCommit();
     const fromTree = await from.getTree();
 
-    const masterCommit = await repo.getMasterCommit();
+    const masterCommit = await repo.getBranchCommit("origin/master");
     const toSha = await nodegit.Merge.base(repo, from.id(), masterCommit.id());
     const to = await repo.getCommit(toSha);
 
