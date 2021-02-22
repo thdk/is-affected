@@ -10,10 +10,12 @@ Build optimisation tool to run commands on feature branches only if they affect 
 Usage:  check [options] <glob>
 
 Options:
-  --repo <repo>  git directory (default: "./")
-  --cmd <cmd>    the command to be run if diff matches glob
-  --cwd <cwd>    working directory to be used to run command
-  -h, --help     display help for command
+  --repo <repo>        git directory (default: "./")
+  --cmd <cmd>          the command to be run if diff matches glob
+  --cwd <cwd>          working directory to be used to run command
+  --main <mainBranch>  name of the main branch of your repo, used when no --since is provided to find the merge base commit
+  --since <since>      commit to diff with
+  -h, --help           display help for command
 ```
 
 **Example**
@@ -42,3 +44,16 @@ const build = async () => {
 build();
 ```
 
+or with options object (using defaults here):
+```javascript
+const shouldBuild = await isAffected(
+		"app/client/**",
+		{
+			repo: "./",
+			cmd: "npm run build",
+			cwd: process.cwd(),
+			mainBranch: "origin/master",
+			since: undefined,
+		},
+	);
+```

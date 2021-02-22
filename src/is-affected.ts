@@ -6,9 +6,13 @@ import chalk from "chalk";
 export const isAffected = async (
   pattern: string,
   {
+    mainBranch = "origin/master",
     repo: repoPath = "./",
+    since,
   }: {
+    mainBranch?: string;
     repo?: string;
+    since?: string;
   } = {}
 ): Promise<boolean> => {
   try {
@@ -19,9 +23,18 @@ export const isAffected = async (
     const from = await repo.getHeadCommit();
     const fromTree = await from.getTree();
 
-    const masterCommit = await repo.getBranchCommit("origin/master");
-    const toSha = await nodegit.Merge.base(repo, from.id(), masterCommit.id());
-    const to = await repo.getCommit(toSha);
+    const getCommitToDiffWith = async () => {
+      const masterCommit = await repo.getBranchCommit(mainBranch);
+      const toSha = await nodegit.Merge.base(repo, from.id(), masterCommit.id());
+
+      return repo.getCommit(toSha);
+    };
+
+    const to = await (
+      since
+        ? repo.getCommit(since)
+        : getCommitToDiffWith()
+    );
 
     const toTree = await to.getTree();
 
