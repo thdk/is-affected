@@ -28,7 +28,7 @@ export const isAffected = async (
       const toSha = await nodegit.Merge.base(
         repo,
         from.id(),
-        masterCommit.id(),
+        masterCommit.id()
       );
 
       return repo.getCommit(toSha);
