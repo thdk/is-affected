@@ -19,10 +19,14 @@ program
   .option("--repo <repo>", "git directory", "./")
   .option("--cmd <cmd>", "the command to be run if diff matches glob")
   .option("--cwd <cwd>", "working directory to be used to run command")
-  .option("--main <mainBranch>", "name of the main branch of your repo, used when no --since is provided to find the merge base commit", "origin/master")
+  .option(
+    "--main <mainBranch>",
+    "name of the main branch of your repo, used when no --since is provided to find the merge base commit",
+    "origin/master"
+  )
   .option("--since <since>", "commit to diff with")
 
-  .action(async (glob, { repo, cwd, cmd, mainBranch, since, }) => {
+  .action(async (glob, { repo, cwd, cmd, mainBranch, since }) => {
     return isAffected(glob, {
       mainBranch,
       repo,
