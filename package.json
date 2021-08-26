@@ -22,7 +22,8 @@
     "build:es": "tsc -m esNext --outDir esm --declaration false",
     "build": "npm run build:cjs && npm run build:es",
     "lint": "eslint . --ext .js,.ts",
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "format": "prettier --write src/*"
   },
   "keywords": [],
   "author": "",
@@ -52,6 +53,6 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md,ts}": "prettier --write"
   }
 }

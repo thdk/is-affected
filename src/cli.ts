@@ -31,27 +31,32 @@ program
       mainBranch,
       repo,
       since,
-    }).then((isAffectedResult) => {
-      if (!isAffectedResult) {
-        console.log(
-          chalk.yellow(
-            `${glob} is not present in diff. Skipping command: ${cmd}`
-          )
-        );
-        return;
-      }
+    })
+      .then((isAffectedResult) => {
+        if (!isAffectedResult) {
+          console.log(
+            chalk.yellow(
+              `${glob} is not present in diff. Skipping command: ${cmd}`
+            )
+          );
+          return;
+        }
 
-      console.log(
-        chalk.green(`${glob} is present in diff. Running command: ${cmd}`)
-      );
-      return exec(cmd, cwd).catch(() => {
-        console.error(
-          chalk.bgRed(
-            `${os.EOL}ERROR: can't exec your command.${os.EOL}command: ${cmd}`
-          )
+        console.log(
+          chalk.green(`${glob} is present in diff. Running command: ${cmd}`)
         );
+        return exec(cmd, cwd).catch(() => {
+          console.error(
+            chalk.bgRed(
+              `${os.EOL}ERROR: can't exec your command.${os.EOL}command: ${cmd}`
+            )
+          );
+          process.exit(1);
+        });
+      })
+      .catch((error) => {
+        console.error(chalk.bgRed(error.message));
         process.exit(1);
       });
-    });
   })
   .parse(process.argv);
