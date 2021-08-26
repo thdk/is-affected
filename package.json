@@ -22,7 +22,7 @@
     "build:es": "tsc -m esNext --outDir esm --declaration false",
     "build": "npm run build:cjs && npm run build:es",
     "lint": "eslint . --ext .js,.ts",
-    "prettier": "prettier --check .",
+    "prettier": "prettier --check src/*",
     "format": "prettier --write src/*",
     "test": "jest",
     "test:ci": "npm run test:tsc && npm run test",
