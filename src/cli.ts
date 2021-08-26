@@ -52,6 +52,9 @@ program
         );
         process.exit(1);
       });
+    }).catch((error) => {
+      console.error(chalk.bgRed(error.message));
+      process.exit(1);
     });
   })
   .parse(process.argv);
