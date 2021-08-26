@@ -10,4 +10,7 @@ steps:
   args: ['run', 'prettier']
 - name: 'node:13-alpine'
   entrypoint: "npm"
+  args: ['run', 'test:ci']
+- name: 'node:13-alpine'
+  entrypoint: "npm"
   args: ['run', 'build']
