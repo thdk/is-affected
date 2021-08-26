@@ -23,11 +23,7 @@ export const isAffected = async (
 
   const getCommitToDiffWith = async () => {
     const masterCommit = await repo.getBranchCommit(mainBranch);
-    const toSha = await nodegit.Merge.base(
-      repo,
-      from.id(),
-      masterCommit.id()
-    );
+    const toSha = await nodegit.Merge.base(repo, from.id(), masterCommit.id());
 
     return repo.getCommit(toSha);
   };
