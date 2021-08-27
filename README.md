@@ -7,15 +7,19 @@ Build optimisation tool to run commands on feature branches only if they affect 
 ## CLI
 
 ```shell
-Usage:  check [options] <glob>
+Usage: is-affected [options]
+
+runs command only if the git diff since the fork point from master branch contains files matching glob
 
 Options:
-  --repo <repo>        git directory (default: "./")
-  --cmd <cmd>          the command to be run if diff matches glob
-  --cwd <cwd>          working directory to be used to run command
-  --main <mainBranch>  name of the main branch of your repo, used when no --since is provided to find the merge base commit
-  --since <since>      commit to diff with
-  -h, --help           display help for command
+  -V, --version           output the version number
+  --pattern [pattern...]  provide one or more patterns to check file paths from git diff against
+  --repo <repo>           git directory (default: "./")
+  --cmd <cmd>             the command to be run if diff matches glob
+  --cwd <cwd>             working directory to be used to run command
+  --main <mainBranch>     name of the main branch of your repo, used when no --since is provided to find the merge base commit (default: "origin/master")
+  --since <since>         commit to diff with
+  -h, --help              display help for command
 ```
 
 **Example**
@@ -50,8 +54,6 @@ const shouldBuild = await isAffected(
 		"app/client/**", // see match patterns below
 		{
 			repo: "./",
-			cmd: "npm run build",
-			cwd: process.cwd(),
 			mainBranch: "origin/master",
 			since: undefined,
 		},
@@ -69,13 +71,24 @@ This will ignore changes in the `src/scripts` folder. If your diff contains only
 
 ### Multiple patterns
 
-A normal pattern (aka non negated) will add paths while negated patterns will remove paths from the list that identify whether or not your code is 'affected'.
+A normal pattern (aka non negated) will add paths to the match list. Negated patterns will remove paths from the list. Your code is 'affected' when the list is not empty after the last pattern has been evaluated.
+
+```javascript
+const shouldBuild = await isAffected([
+    	'src/**',
+    	'!src/tests/**',
+]);
+```
+
+or using cli:
+```
+npx is-affected src/** !src/tests/**
+```
+
+Note that if your shell is automatically expanding glob patterns you should escape the asterix:
 
 ```
-[
-	'src/**,
-	!src/tests/**,
-]
+npx is-affected src/\** !src/tests/\**
 ```
 
-The above examlple will monitor all paths in the `src` folder except for those in the `tests` subfolder.
+The above example will monitor all paths in the `src` folder except for those in the `tests` subfolder.
