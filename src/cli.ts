@@ -15,7 +15,10 @@ program
   .description(
     "runs command only if the git diff since the fork point from master branch contains files matching glob"
   )
-  .command("check <glob>", { isDefault: true })
+  .option(
+    "--pattern [pattern...]",
+    "provide one or more patterns to check file paths from git diff against"
+  )
   .option("--repo <repo>", "git directory", "./")
   .option("--cmd <cmd>", "the command to be run if diff matches glob")
   .option("--cwd <cwd>", "working directory to be used to run command")
@@ -26,8 +29,8 @@ program
   )
   .option("--since <since>", "commit to diff with")
 
-  .action(async (glob, { repo, cwd, cmd, mainBranch, since }) => {
-    return isAffected(glob, {
+  .action(async ({ pattern, repo, cwd, cmd, mainBranch, since }) => {
+    return isAffected(pattern, {
       mainBranch,
       repo,
       since,
@@ -36,23 +39,29 @@ program
         if (!isAffectedResult) {
           console.log(
             chalk.yellow(
-              `${glob} is not present in diff. Skipping command: ${cmd}`
+              `${pattern} is not present in diff. Skipping command: ${cmd}`
             )
           );
           return;
         }
 
-        console.log(
-          chalk.green(`${glob} is present in diff. Running command: ${cmd}`)
-        );
-        return exec(cmd, cwd).catch(() => {
-          console.error(
-            chalk.bgRed(
-              `${os.EOL}ERROR: can't exec your command.${os.EOL}command: ${cmd}`
-            )
-          );
-          process.exit(1);
-        });
+        console.log(chalk.green(`${pattern} is present in diff.`));
+
+        if (cmd) {
+          console.log(chalk.green(`Running command: ${cmd}`));
+
+          return exec(cmd, cwd).catch(() => {
+            console.error(
+              chalk.bgRed(
+                `${os.EOL}ERROR: can't exec your command.${os.EOL}command: ${cmd}`
+              )
+            );
+            process.exit(1);
+          });
+        } else {
+          // code is affected but no command to run is specified
+          process.exit(101);
+        }
       })
       .catch((error) => {
         console.error(chalk.bgRed(error.message));

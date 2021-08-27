@@ -1,9 +1,9 @@
 import path from "path";
 import nodegit from "nodegit";
-import minimatch from "minimatch";
+import { match } from "./match";
 
 export const isAffected = async (
-  pattern: string,
+  pattern: string | string[],
   {
     mainBranch = "origin/master",
     repo: repoPath = "./",
@@ -35,8 +35,5 @@ export const isAffected = async (
   const diff = await toTree.diff(fromTree);
   const patches = await diff.patches();
 
-  return patches.some((patch) => {
-    const file = patch.newFile().path();
-    return minimatch(file, pattern);
-  });
+  return match(patches, pattern);
 };
