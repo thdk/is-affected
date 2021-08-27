@@ -54,6 +54,8 @@ const shouldBuild = await isAffected(
 		"app/client/**", // see match patterns below
 		{
 			repo: "./",
+			cmd: "npm run build",
+			cwd: process.cwd(),
 			mainBranch: "origin/master",
 			since: undefined,
 		},
