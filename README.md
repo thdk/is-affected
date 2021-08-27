@@ -47,7 +47,7 @@ build();
 or with options object (using defaults here):
 ```javascript
 const shouldBuild = await isAffected(
-		"app/client/**",
+		"app/client/**", // see match patterns below
 		{
 			repo: "./",
 			cmd: "npm run build",
@@ -57,3 +57,25 @@ const shouldBuild = await isAffected(
 		},
 	);
 ```
+
+## Match patterns
+
+A match means that the git diff contains paths that match the pattern and your code is 'affected'.
+
+### Negated pattern
+You can use a negated pattern: `!src/scripts`
+
+This will ignore changes in the `src/scripts` folder. If your diff contains only changes in `src/scripts` then your code will not be marked as 'affected'.
+
+### Multiple patterns
+
+A normal pattern (aka non negated) will add paths while negated patterns will remove paths from the list that identify whether or not your code is 'affected'.
+
+```
+[
+	'src/**,
+	!src/tests/**,
+]
+```
+
+The above examlple will monitor all paths in the `src` folder except for those in the `tests` subfolder.
