@@ -58,9 +58,6 @@ program
             );
             process.exit(1);
           });
-        } else {
-          // code is affected but no command to run is specified
-          process.exit(101);
         }
       })
       .catch((error) => {
