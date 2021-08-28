@@ -1,6 +1,6 @@
 {
   "name": "is-affected",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build optimisation tool to run commands on feature branches only if they affect files matching a given glob.",
   "repository": {
     "type": "git",
