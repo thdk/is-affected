@@ -27,7 +27,7 @@ Options:
 To run `npm run build` only if the git diff between your current branch head and the base commit on the master branch contains files matching glob `app/client/**`.
 
 ```shell
-npx is-affected app/client/** --cmd "npm run build" --cwd "app/client"
+npx is-affected --pattern app/client/** --cmd "npm run build" --cwd "app/client"
 ```
 
 ## Javascript API
@@ -84,13 +84,13 @@ const shouldBuild = await isAffected([
 
 or using cli:
 ```
-npx is-affected src/** !src/tests/**
+npx is-affected --pattern src/** !src/tests/**
 ```
 
 Note that if your shell is automatically expanding glob patterns you should escape the asterix:
 
 ```
-npx is-affected src/\** !src/tests/\**
+npx is-affected --pattern src/\** !src/tests/\**
 ```
 
 The above example will monitor all paths in the `src` folder except for those in the `tests` subfolder.
