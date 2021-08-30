@@ -96,7 +96,6 @@ describe("when multiple patterns are provided", () => {
         ["!src/foo/**"]
       );
 
-      // should be false
       expect(result).toBe(false);
     });
 

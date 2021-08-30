@@ -37,9 +37,13 @@ program
     })
       .then((isAffectedResult) => {
         if (!isAffectedResult) {
+          const skippedCommandLog = cmd
+            ? `${os.EOL}Skipping command: ${cmd}`
+            : "";
+
           console.log(
             chalk.yellow(
-              `${pattern} is not present in diff. Skipping command: ${cmd}`
+              `${pattern} is not present in diff.${skippedCommandLog}`
             )
           );
           return;
